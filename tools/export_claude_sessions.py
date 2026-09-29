@@ -371,7 +371,7 @@ def render_markdown(session_id, turns, stats, source_name):
             "",
         ]
         lines += [f"*Claude Code notice: {notice}*\n" for notice in t["notices"]]
-    return "\n".join(lines) + "\n"
+    return "\n".join(lines).rstrip("\n") + "\n"
 
 
 def main():
