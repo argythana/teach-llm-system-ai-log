@@ -98,49 +98,49 @@
     },
     {
      "tool": "Read",
-     "summary": "Read: /tmp/claude-1000/-home-<user>-venv-projects-teach-llm-system/ff09b61a-9973-4fec-a7ad-2abba697f88e/scratchpad/teach-mlflow-remote/README.md",
+     "summary": "Read: <claude-tmp>/ff09b61a-9973-4fec-a7ad-2abba697f88e/scratchpad/teach-mlflow-remote/README.md",
      "id": "toolu_014ZvCTpcG89jbQnUtJmUgQR",
      "started": "2026-09-14T10:43:13.421Z",
      "ended": "2026-09-14T10:43:13.478Z"
     },
     {
      "tool": "Read",
-     "summary": "Read: /tmp/claude-1000/-home-<user>-venv-projects-teach-llm-system/ff09b61a-9973-4fec-a7ad-2abba697f88e/scratchpad/teach-mlflow-remote/CLAUDE.md",
+     "summary": "Read: <claude-tmp>/ff09b61a-9973-4fec-a7ad-2abba697f88e/scratchpad/teach-mlflow-remote/CLAUDE.md",
      "id": "toolu_01EV58eqxcpPiFMMc12EDgkv",
      "started": "2026-09-14T10:43:14.367Z",
      "ended": "2026-09-14T10:43:14.433Z"
     },
     {
      "tool": "Read",
-     "summary": "Read: /tmp/claude-1000/-home-<user>-venv-projects-teach-llm-system/ff09b61a-9973-4fec-a7ad-2abba697f88e/scratchpad/teach-mlflow-remote/pyproject.toml",
+     "summary": "Read: <claude-tmp>/ff09b61a-9973-4fec-a7ad-2abba697f88e/scratchpad/teach-mlflow-remote/pyproject.toml",
      "id": "toolu_0182byXEU97WiQziJTHo5xDn",
      "started": "2026-09-14T10:43:15.372Z",
      "ended": "2026-09-14T10:43:15.435Z"
     },
     {
      "tool": "Read",
-     "summary": "Read: /tmp/claude-1000/-home-<user>-venv-projects-teach-llm-system/ff09b61a-9973-4fec-a7ad-2abba697f88e/scratchpad/teach-mlflow-remote/roadmap/roadmap.md",
+     "summary": "Read: <claude-tmp>/ff09b61a-9973-4fec-a7ad-2abba697f88e/scratchpad/teach-mlflow-remote/roadmap/roadmap.md",
      "id": "toolu_01EZdPhQF82VPDgRU7LbVGoM",
      "started": "2026-09-14T10:43:16.630Z",
      "ended": "2026-09-14T10:43:16.699Z"
     },
     {
      "tool": "Read",
-     "summary": "Read: /tmp/claude-1000/-home-<user>-venv-projects-teach-llm-system/ff09b61a-9973-4fec-a7ad-2abda697f88e/scratchpad/teach-mlflow-remote/roadmap/plan.md",
+     "summary": "Read: <claude-tmp>/ff09b61a-9973-4fec-a7ad-2abda697f88e/scratchpad/teach-mlflow-remote/roadmap/plan.md",
      "id": "toolu_01QWR3Zzy91Az4iNqepSRMSF",
      "started": "2026-09-14T10:43:17.359Z",
      "ended": "2026-09-14T10:43:17.421Z"
     },
     {
      "tool": "Read",
-     "summary": "Read: /tmp/claude-1000/-home-<user>-venv-projects-teach-llm-system/ff09b61a-9973-4fec-a7ad-2abda697f88e/scratchpad/teach-mlflow-remote/roadmap/plan.md",
+     "summary": "Read: <claude-tmp>/ff09b61a-9973-4fec-a7ad-2abda697f88e/scratchpad/teach-mlflow-remote/roadmap/plan.md",
      "id": "toolu_01QVwDr3x2MyhBDiCV9qCoVz",
      "started": "2026-09-14T10:43:23.234Z",
      "ended": "2026-09-14T10:43:23.289Z"
     },
     {
      "tool": "Read",
-     "summary": "Read: /tmp/claude-1000/-home-<user>-venv-projects-teach-llm-system/ff09b61a-9973-4fec-a7ad-2abda697f88e/scratchpad/teach-mlflow-remote/roadmap/plan.md",
+     "summary": "Read: <claude-tmp>/ff09b61a-9973-4fec-a7ad-2abda697f88e/scratchpad/teach-mlflow-remote/roadmap/plan.md",
      "id": "toolu_01GDT1K9eGoqGVLhKuf4k7cf",
      "started": "2026-09-14T10:43:25.651Z",
      "ended": "2026-09-14T10:43:25.714Z"
@@ -154,7 +154,7 @@
     },
     {
      "tool": "Read",
-     "summary": "Read: /tmp/claude-1000/-home-<user>-venv-projects-teach-llm-system/ff09b61a-9973-4fec-a7ad-2abba697f88e/scratchpad/teach-mlflow-remote/roadmap/plan.md",
+     "summary": "Read: <claude-tmp>/ff09b61a-9973-4fec-a7ad-2abba697f88e/scratchpad/teach-mlflow-remote/roadmap/plan.md",
      "id": "toolu_01KeFLgRkkfnANwpzCDvP39m",
      "started": "2026-09-14T10:43:38.957Z",
      "ended": "2026-09-14T10:43:39.019Z"
