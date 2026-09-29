@@ -12,7 +12,9 @@ For each session it writes:
 Kept: every instructor message verbatim (typed prompts, messages sent while Claude was
 working, answers to Claude's questions), every user-facing reply verbatim, and one line
 per tool call. Dropped: the assistant's private reasoning blocks, tool outputs, injected
-system context, and background-task notifications. Scrubbed: e-mail addresses and the
+system context, background-task notifications, settings commands such as /model and
+/effort, and context-compaction summaries. Claude Code's own error notices ("API Error:
+...") are kept apart from the reply, under "notices". Scrubbed: e-mail addresses and the
 home directory. Standard library only.
 """
 
@@ -37,6 +39,22 @@ CLAUDE_PROJECT_DIR = (
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
 SYSTEM_BLOCK = re.compile(r"<system-reminder>.*?</system-reminder>\s*", re.DOTALL)
 HOME = str(Path.home())
+COMMAND_NAME = re.compile(r"\A<command-name>(/[\w:-]+)</command-name>")
+COMMAND_ARGS = re.compile(r"<command-args>(.*?)</command-args>", re.DOTALL)
+HARNESS_COMMANDS = {
+    "/clear",
+    "/compact",
+    "/config",
+    "/context",
+    "/cost",
+    "/effort",
+    "/exit",
+    "/fast",
+    "/help",
+    "/model",
+    "/resume",
+    "/status",
+}
 
 
 def scrub(text):
@@ -131,6 +149,7 @@ def build_turns(entries):
             "assistant": [],
             "assistant_messages": [],
             "thinking_blocks": 0,
+            "notices": [],
         }
         turns.append(current)
 
@@ -148,6 +167,17 @@ def build_turns(entries):
             continue
         if kind not in ("user", "assistant"):
             continue
+        # Claude Code's summary after a context compaction: the work that follows
+        # continues the current turn.
+        if e.get("isCompactSummary"):
+            continue
+        # Claude Code's own error notices ("API Error: ...", "Login expired") are stored
+        # as assistant messages. The assistant did not write them, but they explain a
+        # reply cut short, so they are kept apart from the reply.
+        if e.get("isApiErrorMessage"):
+            if current is not None:
+                current["notices"].append(scrub(text_of(e["message"].get("content"))))
+            continue
         content = e.get("message", {}).get("content")
         if kind == "user":
             if isinstance(content, str):
@@ -159,6 +189,21 @@ def build_turns(entries):
                     or text.startswith("Another Claude session sent a message")
                 ):
                     continue
+                # Local slash commands (/model, /effort, ...) change Claude Code's settings;
+                # they are not requests. A skill typed as a slash command is kept.
+                if text.startswith(
+                    ("<local-command-caveat>", "<local-command-stdout>")
+                ):
+                    continue
+                command = COMMAND_NAME.search(text)
+                if command:
+                    if command.group(1) in HARNESS_COMMANDS:
+                        continue
+                    args = COMMAND_ARGS.search(text)
+                    invocation = command.group(1)
+                    if args and args.group(1).strip():
+                        invocation += " " + args.group(1).strip()
+                    text = f"Ran `{invocation}`"
                 if text.startswith("<bash-input>"):
                     text = (
                         "Ran in the terminal: `"
@@ -325,6 +370,7 @@ def render_markdown(session_id, turns, stats, source_name):
             t["assistant"] or "*(no user-facing text in this turn)*",
             "",
         ]
+        lines += [f"*Claude Code notice: {notice}*\n" for notice in t["notices"]]
     return "\n".join(lines) + "\n"
 
 
@@ -387,7 +433,10 @@ def main():
         "| Session | Turns | Tool calls | From | To |",
         "| --- | --- | --- | --- | --- |",
     ]
-    lines += [f"| [{s}]({s}.md) | {n} | {k} | {a} | {b} |" for s, n, k, a, b in index]
+    # Stems start with the date, so sorting them lists the sessions in time order.
+    lines += [
+        f"| [{s}]({s}.md) | {n} | {k} | {a} | {b} |" for s, n, k, a, b in sorted(index)
+    ]
     (SESSIONS_DIR / "README.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
