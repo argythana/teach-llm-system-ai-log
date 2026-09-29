@@ -39,6 +39,8 @@ CLAUDE_PROJECT_DIR = (
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
 SYSTEM_BLOCK = re.compile(r"<system-reminder>.*?</system-reminder>\s*", re.DOTALL)
 HOME = str(Path.home())
+HOME_SLUG = re.sub(r"[^A-Za-z0-9]", "-", HOME)
+CLAUDE_TMP = re.compile(r"/tmp/claude-\d+/" + re.escape(CLAUDE_PROJECT_DIR.name))
 COMMAND_NAME = re.compile(r"\A<command-name>(/[\w:-]+)</command-name>")
 COMMAND_ARGS = re.compile(r"<command-args>(.*?)</command-args>", re.DOTALL)
 HARNESS_COMMANDS = {
@@ -60,6 +62,11 @@ HARNESS_COMMANDS = {
 def scrub(text):
     text = SYSTEM_BLOCK.sub("", text or "")
     text = EMAIL.sub("[email]", text)
+    # Claude Code's own folders spell the home path with "-" for "/"
+    # (/tmp/claude-1000/-home-<user>-...), which would still name the account.
+    text = CLAUDE_TMP.sub("<claude-tmp>", text)
+    text = text.replace(CLAUDE_PROJECT_DIR.name, "<project>")
+    text = text.replace(HOME_SLUG, "~")
     return text.replace(HOME, "~").strip()
 
 
