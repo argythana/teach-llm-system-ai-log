@@ -61,11 +61,12 @@ and writing. The timeline therefore shows where the wall-clock time of a turn we
   judge is an independent second opinion.
 - A sub-agent is not a reproducible API call. The scores file is committed so the result
   is inspectable; re-running produces a new file, not the same numbers.
-- The local judge reads at most Ollama's default context of 4,096 tokens. A longer turn
-  is cut from the start, where the guideline sits, and the judge grades what is left: in
-  session `2026-09-24_cbdb58da`, turn 29's prompt of 12,944 tokens (measured) arrived as
-  4,096, and its `answers_request` call, like turn 31's, failed to parse. Such failures
-  show as scorer errors on the trace; every other turn logged so far fits the window.
+- Ollama serves a model with a 4,096-token context by default and cuts a longer prompt
+  from the start, where the guideline sits; its OpenAI-compatible endpoint, which MLflow
+  calls, ignores a per-request `num_ctx`. Turn 29 of session `2026-09-24_cbdb58da` has a
+  12,944-token judge prompt (measured), and at 4,096 tokens the local judge's answer
+  failed to parse. `--evaluate` therefore runs an Ollama judge on a variant of the model
+  with a 16k context (`qwen3:1.7b-ctx16k`, created on first use, same weights).
 - The judge sees tool-call summaries, not tool outputs, so it can only check whether
   verification was *claimed and described*, not whether it happened. The repository's CI
   and the executed notebooks are the evidence for the latter.

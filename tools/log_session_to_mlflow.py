@@ -12,8 +12,9 @@ number in the trace tags) is skipped.
 
 --feedback attaches the blind judge's scores (see ai_collaboration_log/evaluation/) to the
 matching traces as LLM_JUDGE feedback. --evaluate runs mlflow.genai.evaluate over the
-traces with deterministic scorers and a local Guidelines judge, so the two judges can be
-compared in the MLflow UI. This is the course's own lecture-3 toolkit applied to the
+traces with deterministic scorers and a local Guidelines judge (an Ollama judge runs on
+a variant of its model with a 16k-token context; see JUDGE_CONTEXT), so the two judges
+can be compared in the MLflow UI. This is the course's own lecture-3 toolkit applied to the
 transcript of how the course was built.
 """
 
@@ -187,9 +188,43 @@ def attach_feedback(mlflow, trace_ids, feedback_path, prefix="judge"):
     print(f"feedback: {n} assessments from {source.source_id}")
 
 
+# Ollama serves a model with a 4,096-token context unless told otherwise, and its
+# OpenAI-compatible endpoint, which MLflow's ollama:/ judge calls, ignores num_ctx per
+# request. A long turn would lose its start, where the guideline sits, so the local judge
+# runs on a copy of the model with a larger context (same weights, nothing downloaded).
+JUDGE_CONTEXT = 16384
+
+
+def with_judge_context(judge):
+    """Return an ``ollama:/`` judge URI for a variant of the model with JUDGE_CONTEXT.
+
+    Creates the variant (e.g. ``qwen3:1.7b-ctx16k``) in the local Ollama if needed.
+    """
+    import requests
+
+    if not judge.startswith("ollama:/"):
+        return judge
+    base = judge.removeprefix("ollama:/")
+    variant = f"{base}-ctx{JUDGE_CONTEXT // 1024}k"
+    requests.post(
+        "http://localhost:11434/api/create",
+        json={
+            "model": variant,
+            "from": base,
+            "parameters": {"num_ctx": JUDGE_CONTEXT},
+            "stream": False,
+        },
+        timeout=600,
+    ).raise_for_status()
+    return "ollama:/" + variant
+
+
 def evaluate(mlflow, session_id, judge):
     from mlflow.genai import evaluate as genai_evaluate
     from mlflow.genai.scorers import Guidelines, scorer
+
+    judge = with_judge_context(judge)
+    print("local judge:", judge)
 
     os.environ.setdefault("MLFLOW_GENAI_EVAL_MAX_WORKERS", "1")
     os.environ.setdefault("MLFLOW_GENAI_EVAL_MAX_SCORER_WORKERS", "1")
