@@ -61,6 +61,11 @@ and writing. The timeline therefore shows where the wall-clock time of a turn we
   judge is an independent second opinion.
 - A sub-agent is not a reproducible API call. The scores file is committed so the result
   is inspectable; re-running produces a new file, not the same numbers.
+- The local judge reads at most Ollama's default context of 4,096 tokens. A longer turn
+  is cut from the start, where the guideline sits, and the judge grades what is left: in
+  session `2026-09-24_cbdb58da`, turn 29's prompt of 12,944 tokens (measured) arrived as
+  4,096, and its `answers_request` call, like turn 31's, failed to parse. Such failures
+  show as scorer errors on the trace; every other turn logged so far fits the window.
 - The judge sees tool-call summaries, not tool outputs, so it can only check whether
   verification was *claimed and described*, not whether it happened. The repository's CI
   and the executed notebooks are the evidence for the latter.

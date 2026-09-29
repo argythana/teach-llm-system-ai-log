@@ -57,6 +57,10 @@ verify rather than take on trust:
 
 - Every lecture 2 notebook was executed from clean caches, and prose that contradicted
   its own outputs was corrected after each run; hooks passed before both commits.
+- The session's own log was exported, blind-judged and mirrored into MLflow. Reading the
+  export showed harness messages (settings commands, error notices, a context summary)
+  recorded as turns or replies; the exporter now keeps them out, and the transcripts are
+  committed verbatim.
 - Open items the instructor owns: the nomic prefix decision; the evaluation set is used
   both to choose settings and to grade them (stated in the notebooks as a caveat); the
   02d/02e read-back about a mis-cited source was edited without re-running; lecture 3 is
