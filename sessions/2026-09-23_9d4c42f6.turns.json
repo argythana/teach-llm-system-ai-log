@@ -5,6 +5,7 @@
    "turn": 1,
    "timestamp": "2026-09-23T07:56:51.447Z",
    "ended": "2026-09-23T08:14:16.515Z",
+   "origin": "instructor",
    "instructor": "in 'instructions_guides/instruct_00a_install_uv.md', needs better explaining for students that use uv for the first time.\nespecially this row: \"| `python -m venv course_venv`          | `uv sync` creates `.venv/`\". I suggest we first explain in the first section how to install uv, then how to install git cli.\nAnd then the most important part that uv can also create a virtual environment and has its own create venv command that allows to use different python versions. After explaining this, we explain that we use uv sync to create the environment with the pinned version that the instructor has already pushed on git.",
    "instructor_while_working": [],
    "instructor_answers": [],
@@ -94,6 +95,7 @@
    "turn": 2,
    "timestamp": "2026-09-23T08:16:06.829Z",
    "ended": "2026-09-23T08:53:29.097Z",
+   "origin": "instructor",
    "instructor": "commit this",
    "instructor_while_working": [],
    "instructor_answers": [
