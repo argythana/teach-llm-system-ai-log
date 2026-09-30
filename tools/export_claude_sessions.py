@@ -143,12 +143,13 @@ def build_turns(entries):
     current = None
     stats = Counter()
 
-    def new_turn(ts, user_text):
+    def new_turn(ts, user_text, origin="instructor"):
         nonlocal current
         current = {
             "turn": len(turns) + 1,
             "timestamp": ts,
             "ended": ts,
+            "origin": origin,
             "instructor": user_text,
             "instructor_while_working": [],
             "instructor_answers": [],
@@ -217,7 +218,10 @@ def build_turns(entries):
                         + re.sub(r"</?bash-input>", "", text).strip()
                         + "`"
                     )
-                new_turn(ts, text)
+                # A reminder Claude scheduled for itself fires as a user message; it
+                # starts a turn, but the instructor did not write it.
+                scheduled = e.get("turnOrigin") == "scheduled"
+                new_turn(ts, text, "scheduled" if scheduled else "instructor")
             else:
                 for b in content:
                     if (
@@ -345,7 +349,9 @@ def render_markdown(session_id, turns, stats, source_name):
         lines += [
             f"## Turn {t['turn']} · {fmt_ts(t['timestamp'])}",
             "",
-            "**Instructor:**",
+            "**Instructor:**"
+            if t["origin"] == "instructor"
+            else "**Scheduled reminder, set by Claude (not typed by the instructor):**",
             "",
         ]
         lines += ["> " + line for line in t["instructor"].splitlines()] + [""]

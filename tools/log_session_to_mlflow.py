@@ -103,6 +103,8 @@ def log_turns(mlflow, session, replace=False):
                 "session_id": session_id,
                 "turn": str(n),
                 "source": "claude-code-transcript",
+                # "scheduled": a reminder Claude set for itself started the turn
+                "origin": turn.get("origin", "instructor"),
             },
             experiment_id=experiment_id,
             start_time_ns=t_start,
