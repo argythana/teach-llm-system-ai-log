@@ -226,7 +226,7 @@ def evaluate(mlflow, session_id, judge):
     from mlflow.genai.scorers import Guidelines, scorer
 
     judge = with_judge_context(judge)
-    print("local judge:", judge)
+    print(f"local judge: {judge}")
 
     os.environ.setdefault("MLFLOW_GENAI_EVAL_MAX_WORKERS", "1")
     os.environ.setdefault("MLFLOW_GENAI_EVAL_MAX_SCORER_WORKERS", "1")
@@ -271,7 +271,7 @@ def evaluate(mlflow, session_id, judge):
             answers_request,
         ],
     )
-    print("evaluation run:", results.run_id)
+    print(f"evaluation run: {results.run_id}")
     print(
         json.dumps(
             {

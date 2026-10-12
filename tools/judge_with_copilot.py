@@ -179,7 +179,7 @@ def main():
     out_path.write_text(
         json.dumps(output, indent=1, ensure_ascii=False) + "\n", encoding="utf-8"
     )
-    print("wrote", out_path.relative_to(REPO))
+    print(f"wrote {out_path.relative_to(REPO)}")
 
 
 if __name__ == "__main__":
