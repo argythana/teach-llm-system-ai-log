@@ -18,8 +18,14 @@ corrections.
 
 ## Coverage
 
-The log covers the first build of the course: the sessions from 14 to 30 September 2026,
-up to commit `723253a` of the course repository. Later sessions are not exported yet.
+The log holds the sessions run on one machine: 14 September to 1 October 2026 (the first
+build of lectures 1 and 2) and 12 to 13 October (lecture 1 rework, moving tracing to
+lecture 3, and moving this log out of the course repository). `sessions/README.md` lists
+them with their dates.
+
+The work between 2 and 11 October, including lecture 3, was done on a second machine.
+Its Claude Code sessions, if any, are not exported yet, so the course's git history is
+the only record of that period.
 
 Until October 2026 this log lived inside the course repository as
 `ai_collaboration_log/`, and the history of its files moved with it. Paths in the
