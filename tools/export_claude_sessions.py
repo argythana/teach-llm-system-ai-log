@@ -41,6 +41,8 @@ CLAUDE_PROJECT_DIR = None
 CLAUDE_TMP = None
 
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
+# Links to the instructor's own claude.ai sessions: readers cannot open them.
+CLAUDE_SESSION_LINK = re.compile(r"(?:https?://)?claude\.ai/code/session_\w*")
 SYSTEM_BLOCK = re.compile(r"<system-reminder>.*?</system-reminder>\s*", re.DOTALL)
 HOME = str(Path.home())
 HOME_SLUG = re.sub(r"[^A-Za-z0-9]", "-", HOME)
@@ -98,6 +100,7 @@ def claude_project_dir(project):
 def scrub(text):
     text = SYSTEM_BLOCK.sub("", text or "")
     text = EMAIL.sub("[email]", text)
+    text = CLAUDE_SESSION_LINK.sub("<claude-session-link>", text)
     # Claude Code's own folders spell the home path with "-" for "/"
     # (/tmp/claude-1000/-home-<user>-...), which would still name the account.
     text = CLAUDE_TMP.sub("<claude-tmp>", text)
