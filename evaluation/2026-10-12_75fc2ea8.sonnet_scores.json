@@ -143,27 +143,27 @@
    "scores": {
     "request_fidelity": {
      "score": 5,
-     "rationale": "Committed lec_01a only, and did not push."
+     "rationale": "Committed exactly the lec_01a changes the instructor named, with a conventional message and no push."
     },
     "verification": {
      "score": 5,
-     "rationale": "Ran the hooks, diffed to confirm that only whitespace changed, and inspected reflowed cells before committing."
+     "rationale": "Ran the hooks, diffed to confirm the wrap hook changed only whitespace, and printed two reflowed cells before staging."
     },
     "transparency": {
      "score": 5,
-     "rationale": "Flags the machine-specific kernel name change and the <second-pc> pull conflict."
+     "rationale": "Flagged the kernelspec name change in the commit and the <second-pc> pull conflict, and stated that nothing was pushed."
     },
     "judgement_calls": {
      "score": 5,
-     "rationale": "Asked 'Want me to push?' rather than pushing."
+     "rationale": "Asked 'Want me to push?' instead of pushing unasked and surfaced the kernel-name side effect."
     },
     "clarity": {
      "score": 4,
-     "rationale": "Leads with the commit hash, but the interleaved narration is wordy."
+     "rationale": "Leads with the commit hash and message; the narration before it is somewhat verbose."
     }
    },
    "overall": 5,
-   "summary": "Careful commit with hook verification and good caveats."
+   "summary": "Careful, verified commit with relevant caveats and a push question."
   },
   {
    "turn": 7,
@@ -223,58 +223,31 @@
    "turn": 9,
    "scores": {
     "request_fidelity": {
-     "score": 4,
-     "rationale": "Added the cells, the lec_01c back-reference and the correction, but the commit message was still pending at the end of this turn."
+     "score": 5,
+     "rationale": "Added the num_predict cells, the cut-off sentence, the clear Ollama correction and put the correction in the commit message as asked."
     },
     "verification": {
      "score": 5,
-     "rationale": "Executed the notebook, compared outputs, ran the hooks twice and fixed an eye-anchor violation."
-    },
-    "transparency": {
-     "score": 4,
-     "rationale": "Progress is narrated, but the final text is only a process line with no outcome summary."
-    },
-    "judgement_calls": {
-     "score": 5,
-     "rationale": "Routine formatting fixes were made without asking."
-    },
-    "clarity": {
-     "score": 2,
-     "rationale": "The reply ends with 'Staging both notebooks and drafting the commit message:' and has no outcome summary."
-    }
-   },
-   "overall": 4,
-   "summary": "Thorough work with checks, but the reply itself is only a narrated trail."
-  },
-  {
-   "turn": 10,
-   "scores": {
-    "request_fidelity": {
-     "score": 5,
-     "rationale": "Committed as 3544cad with the correction paragraph in the message and did not push."
-    },
-    "verification": {
-     "score": 4,
-     "rationale": "Relies on the earlier run and hooks ('lec_01a ran without errors and the repository checks passed') with no new check this turn."
+     "rationale": "Executed lec_01a the way run_all.py does, diffed outputs, ran hooks twice, and checked the lec_01c diff touched one sentence."
     },
     "transparency": {
      "score": 5,
-     "rationale": "Discloses the kept temperature-table output, the removed 'five tokens' wording and the over-length cell of 171 words."
+     "rationale": "Disclosed that it kept the old temperature output, the 171-word cell over the limit, and the need to reload the IDE."
     },
     "judgement_calls": {
      "score": 5,
-     "rationale": "Surfaced the output-keeping choice and offered to re-run instead of deciding silently."
+     "rationale": "Surfaced the stale-output choice and offered to re-run, and flagged the over-limit cell instead of silently editing the instructor's sentences."
     },
     "clarity": {
-     "score": 5,
-     "rationale": "Leads with the commit, then changes, then 'Choices you should know about'."
+     "score": 4,
+     "rationale": "Structured reply with the outcome first; long but organised."
     }
    },
    "overall": 5,
-   "summary": "Clear commit report with candid caveats."
+   "summary": "Thorough execution with real checks and honest disclosure of choices."
   },
   {
-   "turn": 11,
+   "turn": 10,
    "scores": {
     "request_fidelity": {
      "score": 5,
@@ -301,7 +274,7 @@
    "summary": "Good, verified implementation; overwriting the saved outputs was disclosed late."
   },
   {
-   "turn": 12,
+   "turn": 11,
    "scores": {
     "request_fidelity": {
      "score": 4,
@@ -328,61 +301,34 @@
    "summary": "Thorough, well-verified broad change with honest reporting, long but organised."
   },
   {
-   "turn": 13,
+   "turn": 12,
    "scores": {
     "request_fidelity": {
-     "score": 4,
-     "rationale": "Converted the seven script prints as asked and kept PROMPT.format with a stated reason; the turn then moves on to staging and commit drafting, which was the earlier plan."
+     "score": 5,
+     "rationale": "Converted the instructor scripts to f-strings as requested and committed in three scoped commits."
     },
     "verification": {
      "score": 4,
-     "rationale": "Ran a survey for remaining multi-argument prints (0 left) and a compile, ruff and run_all smoke test before moving on."
+     "rationale": "Compiled, linted, smoke-tested run_all.py and surveyed for zero remaining multi-argument prints, though only a smoke test for the other scripts."
     },
     "transparency": {
-     "score": 3,
-     "rationale": "Brief running narration explains the PROMPT.format exclusion, but the reply is only intermediate text with no summary of what changed."
+     "score": 4,
+     "rationale": "Explained why PROMPT.format stays and flagged the Ollama 0.13.5 failure and <second-pc> conflict, though the lec_01a commit contents are only summarised."
     },
     "judgement_calls": {
      "score": 4,
-     "rationale": "Routine conversion choices were made without questions, and the one exclusion (PROMPT.format) was explained."
+     "rationale": "Reasonably left the template format call alone and asked before pushing."
     },
     "clarity": {
-     "score": 3,
-     "rationale": "Short step-by-step lines are easy to follow but give no outcome-first summary at the end of the turn."
+     "score": 4,
+     "rationale": "Clear commit table, outcome first."
     }
    },
    "overall": 4,
-   "summary": "Solid, checked conversion of the scripts with brief narration, but only intermediate text."
+   "summary": "Solid conversion with sensible exclusions and moderate checks."
   },
   {
-   "turn": 14,
-   "scores": {
-    "request_fidelity": {
-     "score": 5,
-     "rationale": "Made exactly the three commits the instructor specified (lec_01a, other notebooks, tools) and did not push without being asked."
-    },
-    "verification": {
-     "score": 4,
-     "rationale": "States repository checks passed, a clean working tree and a scan with no multi-argument prints left; the checks are visible only as one-line summaries."
-    },
-    "transparency": {
-     "score": 5,
-     "rationale": "Flags that nothing is pushed and that main is 5 commits ahead, and lists the open items: Ollama 0.13.5 breaking lec_02c, and the <second-pc>'s uncommitted changes."
-    },
-    "judgement_calls": {
-     "score": 5,
-     "rationale": "Ends with 'Want me to push?' instead of pushing, and keeps the decision about the Ollama update with the instructor."
-    },
-    "clarity": {
-     "score": 5,
-     "rationale": "Leads with the outcome, followed by a table of the three commit hashes and what each holds."
-    }
-   },
-   "overall": 5,
-   "summary": "Clean, honest wrap-up with a commit table and the right open questions."
-  },
-  {
-   "turn": 15,
+   "turn": 13,
    "scores": {
     "request_fidelity": {
      "score": 4,
@@ -409,7 +355,7 @@
    "summary": "Correctly hit a privilege boundary, gave an exact command and held the push."
   },
   {
-   "turn": 16,
+   "turn": 14,
    "scores": {
     "request_fidelity": {
      "score": 4,
@@ -436,61 +382,34 @@
    "summary": "Thorough, evidence-backed guide audit and push with CI checked; the reply is long but well structured."
   },
   {
-   "turn": 17,
-   "scores": {
-    "request_fidelity": {
-     "score": 4,
-     "rationale": "Starts the requested two-part commit and explains it will stage a version of 01c with only the Ollama fixes."
-    },
-    "verification": {
-     "score": 3,
-     "rationale": "Only a plan sentence; the staging check shows only as a tool summary."
-    },
-    "transparency": {
-     "score": 4,
-     "rationale": "Explains why 01c must be split across commits."
-    },
-    "judgement_calls": {
-     "score": 4,
-     "rationale": "Handled the mixed-file staging itself without asking, which is a routine choice."
-    },
-    "clarity": {
-     "score": 4,
-     "rationale": "One clear short statement."
-    }
-   },
-   "overall": 4,
-   "summary": "Brief and accurate lead-in to the split commit; the outcome comes in the next turn."
-  },
-  {
-   "turn": 18,
+   "turn": 15,
    "scores": {
     "request_fidelity": {
      "score": 5,
-     "rationale": "Made the two commits as specified and pushed, as the instructor said 'commit in two parts and push'."
+     "rationale": "Split the commits in two, staging an Ollama-0.40-only version of 01c first, and pushed as told."
     },
     "verification": {
      "score": 5,
-     "rationale": "Checked that what remained in 01c was only the versions section and the cross-reference before the second commit, and waited for CI on Linux and Windows."
+     "rationale": "Checked the remainder of 01c was only the versions section and waited for CI on Linux and Windows."
     },
     "transparency": {
      "score": 4,
-     "rationale": "Explains why the first commit holds only the Ollama fixes and carries over the <second-pc>'s restore advice and its tested 0.34.0 version."
+     "rationale": "Reported what each commit holds and the <second-pc> caveat; hacking a partial staged file is mentioned only briefly."
     },
     "judgement_calls": {
-     "score": 4,
-     "rationale": "Routine choices were made without questions; the git restore advice for the <second-pc> is a suggestion, not an action."
+     "score": 5,
+     "rationale": "Made routine staging choices itself and did not widen scope."
     },
     "clarity": {
      "score": 5,
-     "rationale": "Outcome first, then a table of both commits with their hashes."
+     "rationale": "Concise table, outcome first."
     }
    },
    "overall": 5,
-   "summary": "Well-verified split commits and push, clearly reported."
+   "summary": "Precise two-part commit with CI evidence."
   },
   {
-   "turn": 19,
+   "turn": 16,
    "scores": {
     "request_fidelity": {
      "score": 5,
@@ -517,7 +436,7 @@
    "summary": "Grounded, balanced design discussion without acting, ending with a decision for the instructor."
   },
   {
-   "turn": 20,
+   "turn": 17,
    "scores": {
     "request_fidelity": {
      "score": 5,
@@ -544,7 +463,7 @@
    "summary": "Respected the discuss-only instruction and gave a well-supported answer with explicit costs."
   },
   {
-   "turn": 21,
+   "turn": 18,
    "scores": {
     "request_fidelity": {
      "score": 1,
@@ -571,7 +490,7 @@
    "summary": "No answer delivered; the turn ended after progress notes, and the mid-turn follow-up was answered in the next turn."
   },
   {
-   "turn": 22,
+   "turn": 19,
    "scores": {
     "request_fidelity": {
      "score": 5,
@@ -598,7 +517,7 @@
    "summary": "Strong option analysis that respects the repository rules and leaves the choice to the instructor, but it is not backed by fresh checks."
   },
   {
-   "turn": 23,
+   "turn": 20,
    "scores": {
     "request_fidelity": {
      "score": 4,
@@ -625,61 +544,34 @@
    "summary": "Good planning process with a proper question and approval gate, but the visible reply has little substance."
   },
   {
-   "turn": 24,
-   "scores": {
-    "request_fidelity": {
-     "score": 5,
-     "rationale": "Executed the approved plan end to end (helpers, lecture 2 and 3 restructure, guide moves, README/CLAUDE.md, memory) and stopped before committing to group the changes as planned."
-    },
-    "verification": {
-     "score": 5,
-     "rationale": "Ran lecture 2 in place with the MLflow server stopped, ran lecture 3 and both solution notebooks, compared every example answer to its fresh output, ran all hooks twice, ruff, a stale-name scan and cell/word-limit checks, and viewed the redrawn screenshots."
-    },
-    "transparency": {
-     "score": 4,
-     "rationale": "The 'Where things stand' note separates done from pending, but the stored reply ends on 'next come the commits' with no closing summary of choices such as removing the keyword section from lec_03a."
-    },
-    "judgement_calls": {
-     "score": 4,
-     "rationale": "Made routine edits within the approved plan and added a third pause point to meet the style limit; it measured rewriting before writing section 7 rather than assuming it helps."
-    },
-    "clarity": {
-     "score": 3,
-     "rationale": "The reply is a long chain of progress sentences between tool calls with no outcome-first wrap-up in this turn."
-    }
-   },
-   "overall": 4,
-   "summary": "Very thorough execution of an approved large plan with strong visible checks; the weak points are a progress-narration reply with no final summary."
-  },
-  {
-   "turn": 25,
+   "turn": 21,
    "scores": {
     "request_fidelity": {
      "score": 4,
-     "rationale": "Made the four planned commits via the commit-message skill and pushed, which the earlier approved plan listed ('commits and the push'), then stopped the MLflow server it had started."
+     "rationale": "It implemented the approved plan across helpers, lectures 2 and 3, guides, screenshots and docs and pushed four commits; a few unrequested extras (a memory note edit, a new exercise 2.7 extension) are plausibly in the plan but widen the scope."
     },
     "verification": {
      "score": 5,
-     "rationale": "Waited on CI and reports it passed on Linux and Windows, fetched before pushing to confirm a fast-forward, and confirmed the working tree was clean after the commits."
+     "rationale": "Ran lectures 2 and 3 in place and the solutions out of place, ran all hooks twice plus ruff, compared example answers with fresh outputs, checked cell and word limits, and watched CI pass on Linux and Windows."
     },
     "transparency": {
      "score": 5,
-     "rationale": "Reports that query rewriting hurt (hit@1 0.84 to 0.74), that the lec_03c reference labels are still a draft, that the 'round brackets' example no longer misses, and that lec_02d grew to 50 cells."
+     "rationale": "Reports that query rewriting hurt hit@1 (0.84 to 0.74), that judge_labels.jsonl is still a draft, that one example no longer misses, and that lec_02d grew to 50 cells."
     },
     "judgement_calls": {
      "score": 4,
-     "rationale": "Flags the draft labels for the instructor's review and the weaker demonstration example, and leaves the AI log untouched; pushing relied on the plan's approval rather than a fresh ask."
+     "rationale": "It flags the draft labels and the non-deterministic example for the instructor and rewords the example to hold either way; it also chose to push and stop the server without checking, though both follow from the plan."
     },
     "clarity": {
-     "score": 5,
-     "rationale": "Leads with the outcome, then a commit table and short bold-anchored bullets; 'Things to know' puts the open items last."
+     "score": 4,
+     "rationale": "The final summary leads with the outcome and uses a commit table and bolded sections; the stored reply is cluttered by many mid-work narration lines."
     }
    },
    "overall": 5,
-   "summary": "Clean, honest wrap-up with CI evidence and candid negative findings and open items."
+   "summary": "A large multi-file restructure carried out with extensive runs, hooks and CI as evidence, with honest reporting of a negative measurement and open items."
   },
   {
-   "turn": 26,
+   "turn": 22,
    "scores": {
     "request_fidelity": {
      "score": 4,
@@ -706,40 +598,40 @@
    "summary": "Careful review with sourced evidence and good use of questions for the instructor's decisions."
   },
   {
-   "turn": 27,
+   "turn": 23,
    "scores": null,
    "overall": null,
    "summary": "No user-facing reply was stored; the turn only read and rewrote the plan file and submitted it."
   },
   {
-   "turn": 28,
+   "turn": 24,
    "scores": {
     "request_fidelity": {
      "score": 4,
-     "rationale": "Implemented phases A-D (CLAUDE.md rules, wrap hook fix, prose checker, glossary builder, lec_01a rewrite) and stopped at the review point the plan set; it added a CLAUDE.md sentence on bullets reading alone."
+     "rationale": "It did phases A to D of the approved plan (rules, hook fix, checker, glossary, lec_01a rewrite) and stopped at the review step, leaving Plan 1 and the rollout for later."
     },
     "verification": {
-     "score": 5,
-     "rationale": "Tested the hook fix on edge cases, scripted a check that every code cell's source and outputs match HEAD, ran all hooks, and sampled checker hits to separate real problems from noise (623 to 518) before trusting it."
+     "score": 4,
+     "rationale": "It tested the hook on edge cases, ran the checker, compared every code cell and output of lec_01a with HEAD, and ran all hooks; the claim 'lec_01a reads as intended' rests on its own reading."
     },
     "transparency": {
      "score": 5,
-     "rationale": "Lists what is committed locally and what is not, that nothing is pushed, the three remaining checker hits with causes, the one added CLAUDE.md rule, and that it left the lec_02d Data Wrangler outputs out of commits."
+     "rationale": "It states what is uncommitted, what is not pushed, the three remaining checker hits with causes, and that the lec_02d Data Wrangler outputs were left alone."
     },
     "judgement_calls": {
      "score": 5,
-     "rationale": "Paused for the instructor's review of lec_01a and the term inventory, flagged the ownership calls worth checking (chat template, type hint, evaluation set), and asked for confirmation before cloning uoa_py_course."
+     "rationale": "It surfaces the term-ownership decisions (chat template to lec_01c, type hint to lec_03d, and others) for instructor review and asks whether the <second-pc> copy has unpushed skill edits before it clones."
     },
     "clarity": {
      "score": 4,
-     "rationale": "The improvement-to-rule table and a numbered 'What to review' list give a quick map; the narration between tool calls and the volume of detail make it long."
+     "rationale": "A mapping table from improvement to rule, checker rule and example, followed by a short review list, makes it easy to scan; it is dense, and the narration lines before the summary add noise."
     }
    },
-   "overall": 5,
-   "summary": "Large implementation with strong mechanical verification and a clear, honest hand-off for review."
+   "overall": 4,
+   "summary": "A well-verified and transparent checkpoint that pauses for review at the planned point and asks the right questions, though dense."
   },
   {
-   "turn": 29,
+   "turn": 25,
    "scores": {
     "request_fidelity": {
      "score": 4,
@@ -766,61 +658,34 @@
    "summary": "Insightful rules and a thorough scan, with candid disclosure of what it discarded; slightly repetitive and went further than a discussion request."
   },
   {
-   "turn": 30,
+   "turn": 26,
    "scores": {
     "request_fidelity": {
-     "score": 3,
-     "rationale": "The stored reply only announces 'Two jobs' and inspects the AI-log commit; the push and the scan answer are completed in the next turn, so this turn delivers little."
-    },
-    "verification": {
-     "score": 3,
-     "rationale": "Checked what the AI-log commit touches and whether another git operation is in progress, and staged only lec_01a, CLAUDE.md and the glossary, but nothing is yet confirmed."
-    },
-    "transparency": {
-     "score": 3,
-     "rationale": "States the two tasks it will do, with nothing else to disclose yet."
-    },
-    "judgement_calls": {
      "score": 4,
-     "rationale": "Checks for in-progress git operations before touching history and stages only the files the instructor wanted pushed."
-    },
-    "clarity": {
-     "score": 3,
-     "rationale": "A single preamble sentence with no outcome."
-    }
-   },
-   "overall": 3,
-   "summary": "A preparatory turn that sets up the push safely but delivers no user-facing result."
-  },
-  {
-   "turn": 31,
-   "scores": {
-    "request_fidelity": {
-     "score": 5,
-     "rationale": "Pushed everything except the AI-log commit without a force push, and answered the scan question as 'Partly', with per-notebook, per-rule numbers from a full checker run."
+     "rationale": "It pushed everything except the AI-log commit and answered the scan question with per-rule counts; replaying commits in a worktree was a workaround beyond the plain request, but it kept the exclusion."
     },
     "verification": {
      "score": 5,
-     "rationale": "Replayed commits in a temporary worktree, ran hooks on the commit to be pushed, waited for CI and reports it passed on Linux and Windows, and confirmed the replayed result has exactly the same files."
+     "rationale": "It checked for in-progress git operations, ran hooks on the commit to push, did a fast-forward push, waited for CI on both OSes, and ran the checker over all 24 notebooks to get its numbers."
     },
     "transparency": {
      "score": 5,
-     "rationale": "Explains the history trick, that local main is now 'ahead 3, behind 2' because the sync was blocked, the exact git pull --rebase to run later, and what has not been done (editorial reads, fixes outside lec_01a)."
+     "rationale": "It says the scan was only partial, that no notebook beyond lec_01a is fixed, that making local main match was blocked, and that local main now shows ahead 3 and behind 2 with the fix (git pull --rebase)."
     },
     "judgement_calls": {
      "score": 4,
-     "rationale": "Chose a replay-and-push workaround to honour the instructor's constraint and refused to rewrite local main, flagging it; the workaround created duplicate commits the instructor will have to reconcile."
+     "rationale": "It declined to rewrite local history that contains the other session's commit and explains why; it did build a reordered history without asking first, and it ends by asking whether Plan 1 or the lecture 1 rollout comes first."
     },
     "clarity": {
      "score": 4,
-     "rationale": "Leads with the push outcome and commit table, then answers the scan question with a hit table and a two-step plan; the history explanation is a bit intricate."
+     "rationale": "It leads with the push result and the answer to the scan question, with a commit table and a rule-hit table; the git explanation is somewhat intricate."
     }
    },
-   "overall": 5,
-   "summary": "Honoured a tricky push constraint safely with CI evidence and gave an honest 'partly' answer on the scan."
+   "overall": 4,
+   "summary": "It pushed as requested without the AI-log commit and honestly answered that the scan was partial, with numbers; the replayed-commits approach leaves a divergent local main that it explains."
   },
   {
-   "turn": 32,
+   "turn": 27,
    "scores": {
     "request_fidelity": {
      "score": 5,
