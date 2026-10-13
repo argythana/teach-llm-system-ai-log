@@ -1,11 +1,12 @@
 # Pre-commit hooks. Run with `prek` (a fast pre-commit drop-in, a dev dependency):
-#   uv run prek install            # wire the git hook (one-time)
+#   uv run prek install            # wire the pre-commit and commit-msg hooks (one-time)
 #   uv run prek run --all-files    # apply to the whole repo
 #
 # `sessions/` and the judges' score files are records: they stay verbatim.
 default_language_version:
   python: "python3"
 default_stages: [pre-commit]
+default_install_hook_types: [pre-commit, commit-msg]
 fail_fast: false
 
 repos:
@@ -46,3 +47,16 @@ repos:
         language: system
         files: "^tools/.*\\.py$"
         require_serial: true
+      # The names come from the gitignored private_terms.txt plus this machine's hostname
+      # and username, so the check never publishes the names it looks for.
+      - id: "private-terms"
+        name: "no private names (private_terms.txt, hostname, username, session links)"
+        entry: uv run python tools/check_private_terms.py
+        language: system
+        types: [text]
+        require_serial: true
+      - id: "private-terms-msg"
+        name: "no private names in the commit message"
+        entry: uv run python tools/check_private_terms.py --commit-msg
+        language: system
+        stages: [commit-msg]

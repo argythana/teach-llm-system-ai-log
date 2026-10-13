@@ -47,8 +47,14 @@ layout.
 
 ```bash
 uv sync
+uv run prek install   # pre-commit and commit-msg hooks, once per clone
 ```
 
+- **Private names:** create `private_terms.txt` in the repository root (gitignored), one
+  `name=replacement` per line, for names that must not be published: other machines, a
+  VPN host name, private repositories. The exporter replaces them, together with this
+  machine's hostname and username, and the `private-terms` hook blocks a commit or
+  commit message that still contains one.
 - **Ollama** with `qwen3:1.7b`, for the local judge (the course's guide `01c_ollama`).
 - **This repository's MLflow server**, started from the repository root so that
   `mlflow.db` and `mlartifacts/` land there (both gitignored):

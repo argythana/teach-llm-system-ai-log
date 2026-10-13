@@ -29,7 +29,11 @@ is evidence of AI fluency practice, not course material.
 - `sessions/`, `*.turns.json` and `evaluation/*_scores.json` are records: never edit or
   reformat them by hand (mdformat excludes `sessions/`). Old `ai_collaboration_log/`
   paths inside them are historical.
-- Before a push, skim newly exported transcripts for anything private; gitleaks runs on
-  every commit.
+- Before a push, skim newly exported transcripts for anything private. gitleaks catches
+  secrets; it cannot catch names. Names live in the gitignored `private_terms.txt`: add
+  a new private name there before exporting, never write it into a tracked file. The
+  `private-terms` hook (`tools/check_private_terms.py`) checks staged files and commit
+  messages against that file, this machine's hostname and username, and Claude Code
+  session links. Run `uv run prek install` once per clone, or the hooks do not run.
 - `uv` only, never pip. Python >= 3.12. `uv run prek run --all-files` runs the hooks.
 - Commit messages: Conventional Commits, e.g. `docs(sessions): ...`, `fix(tools): ...`.
