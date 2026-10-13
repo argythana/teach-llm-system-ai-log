@@ -16,3 +16,6 @@ mlflow.db
 # Secrets and per-machine config
 .env
 .env.*
+
+# Names of the instructor's machines and accounts, scrubbed by tools/export_claude_sessions.py
+private_terms.txt

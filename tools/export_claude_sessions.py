@@ -17,14 +17,17 @@ working, answers to Claude's questions), every user-facing reply verbatim, and o
 per tool call. Dropped: the assistant's private reasoning blocks, tool outputs, injected
 system context, background-task notifications, settings commands such as /model and
 /effort, and context-compaction summaries. Claude Code's own error notices ("API Error:
-...") are kept apart from the reply, under "notices". Scrubbed: e-mail addresses and the
-home directory. Standard library only.
+...") are kept apart from the reply, under "notices". Scrubbed: e-mail addresses, the
+home directory, the local username and hostname, and the names listed in
+private_terms.txt (gitignored; one "name=replacement" per line, for example the names of
+other machines). Standard library only.
 """
 
 import argparse
 import json
 import re
 import shutil
+import socket
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
@@ -41,6 +44,28 @@ EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
 SYSTEM_BLOCK = re.compile(r"<system-reminder>.*?</system-reminder>\s*", re.DOTALL)
 HOME = str(Path.home())
 HOME_SLUG = re.sub(r"[^A-Za-z0-9]", "-", HOME)
+# Names that identify the instructor's machines and account. The list itself stays out
+# of the repository: the local hostname and username are read from the system, and any
+# other name (another machine, a VPN host name) comes from private_terms.txt.
+PRIVATE_TERMS_FILE = REPO / "private_terms.txt"
+
+
+def private_terms():
+    terms = [(socket.gethostname(), "<hostname>")]
+    if PRIVATE_TERMS_FILE.exists():
+        for line in PRIVATE_TERMS_FILE.read_text(encoding="utf-8").splitlines():
+            name, sep, replacement = line.partition("=")
+            if sep and name.strip() and not line.startswith("#"):
+                terms.append((name.strip(), replacement.strip()))
+    # Last, because the hostname or a listed name may contain the username.
+    terms.append((Path.home().name, "<user>"))
+    return [
+        (re.compile(rf"(?<![A-Za-z0-9]){re.escape(name)}(?![A-Za-z0-9])"), replacement)
+        for name, replacement in terms
+    ]
+
+
+PRIVATE_TERMS = private_terms()
 COMMAND_NAME = re.compile(r"\A<command-name>(/[\w:-]+)</command-name>")
 COMMAND_ARGS = re.compile(r"<command-args>(.*?)</command-args>", re.DOTALL)
 HARNESS_COMMANDS = {
@@ -78,7 +103,10 @@ def scrub(text):
     text = CLAUDE_TMP.sub("<claude-tmp>", text)
     text = text.replace(CLAUDE_PROJECT_DIR.name, "<project>")
     text = text.replace(HOME_SLUG, "~")
-    return text.replace(HOME, "~").strip()
+    text = text.replace(HOME, "~")
+    for pattern, replacement in PRIVATE_TERMS:
+        text = pattern.sub(replacement, text)
+    return text.strip()
 
 
 def tool_summary(block):
