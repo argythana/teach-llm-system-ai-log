@@ -1,0 +1,18 @@
+# Raw Claude Code transcripts (contain personal data; the curated export is tracked instead)
+raw/
+
+# Python
+__pycache__/
+*.py[oc]
+
+# Virtual environment (uv)
+.venv/
+
+# MLflow state, if a local server or sqlite store is started here
+mlartifacts/
+mlruns/
+mlflow.db
+
+# Secrets and per-machine config
+.env
+.env.*

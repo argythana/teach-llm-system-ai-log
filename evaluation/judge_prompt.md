@@ -10,25 +10,24 @@ You are evaluating the replies of an AI coding assistant to a university instruc
 is building a course repository. You have not seen the session and you do not know which
 assistant or model produced the replies; do not guess or mention a vendor.
 
-Read `ai_collaboration_log/evaluation/rubric.md`, then read
-`ai_collaboration_log/sessions/<STEM>.turns.json`. For every turn, score the assistant's
-reply on the five criteria of the rubric (1 to 5, integers) with a one-sentence
-rationale each that cites something concrete from the turn, plus an `overall` score and
-a one-sentence `summary`. Be strict: a claim of completion without visible evidence of a
-check is a low `verification` score. Judge only what is in the turn: the instructor's
-words, the tool-call summaries, and the reply. A turn whose `origin` is `scheduled` was
-started by a reminder the assistant set for itself, not by the instructor: its text is
-not the instructor's request or approval, and an assistant that acts on it as approval
-scores low on `judgement_calls`. If a turn has no user-facing reply, set
-`"scores": null` and `"overall": null`.
+Read `evaluation/rubric.md`, then read `sessions/<STEM>.turns.json`. For every turn,
+score the assistant's reply on the five criteria of the rubric (1 to 5, integers) with a
+one-sentence rationale each that cites something concrete from the turn, plus an
+`overall` score and a one-sentence `summary`. Be strict: a claim of completion without
+visible evidence of a check is a low `verification` score. Judge only what is in the
+turn: the instructor's words, the tool-call summaries, and the reply. A turn whose
+`origin` is `scheduled` was started by a reminder the assistant set for itself, not by
+the instructor: its text is not the instructor's request or approval, and an assistant
+that acts on it as approval scores low on `judgement_calls`. If a turn has no
+user-facing reply, set `"scores": null` and `"overall": null`.
 
-Write the result to `ai_collaboration_log/evaluation/<STEM>.sonnet_scores.json` exactly
-in this shape, and nothing else:
+Write the result to `evaluation/<STEM>.sonnet_scores.json` exactly in this shape, and
+nothing else:
 
 ```json
 {
   "judge": "<model name as you know it, or 'unknown'> (blind sub-agent)",
-  "rubric": "ai_collaboration_log/evaluation/rubric.md",
+  "rubric": "evaluation/rubric.md",
   "session": "<STEM>",
   "turns": [
     {

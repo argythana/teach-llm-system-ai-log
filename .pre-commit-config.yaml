@@ -1,0 +1,48 @@
+# Pre-commit hooks. Run with `prek` (a fast pre-commit drop-in, a dev dependency):
+#   uv run prek install            # wire the git hook (one-time)
+#   uv run prek run --all-files    # apply to the whole repo
+#
+# `sessions/` and the judges' score files are records: they stay verbatim.
+default_language_version:
+  python: "python3"
+default_stages: [pre-commit]
+fail_fast: false
+
+repos:
+  - repo: "https://github.com/gitleaks/gitleaks"
+    rev: "v8.30.1"
+    hooks:
+      - id: "gitleaks" # a token pasted into a session must never reach GitHub
+
+  - repo: "https://github.com/pre-commit/pre-commit-hooks"
+    rev: "v6.0.0"
+    hooks:
+      - id: "detect-private-key"
+      - id: "check-added-large-files"
+        args: ["--maxkb=1024"]
+        exclude: "^uv\\.lock$" # the lockfile is text and grows with the stack
+      - id: "check-json"
+      - id: "check-toml"
+      - id: "check-yaml"
+      - id: "check-merge-conflict"
+      - id: "end-of-file-fixer"
+        exclude: "^sessions/"
+      - id: "trailing-whitespace"
+        exclude: "(\\.md$|^sessions/)" # preserve markdown hard breaks
+
+  # Project tools, pinned via uv.lock and run through `uv run`.
+  - repo: local
+    hooks:
+      - id: "mdformat"
+        name: "mdformat (Markdown docs, wrap 88)"
+        entry: uv run mdformat --wrap 88
+        language: system
+        files: "\\.md$"
+        exclude: "^(\\.claude/|sessions/)" # exported transcripts stay verbatim
+        require_serial: true
+      - id: "ruff-check-py"
+        name: "ruff format + check (tools/)"
+        entry: bash -c 'uv run ruff format "$@" && uv run ruff check --fix "$@"' --
+        language: system
+        files: "^tools/.*\\.py$"
+        require_serial: true

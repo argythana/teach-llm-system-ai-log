@@ -1,0 +1,30 @@
+[project]
+name = "teach-llm-system-ai-log"
+version = "0.1.0"
+description = "The record of how the teach-llm-system course was built with an AI coding assistant: session transcripts, reflections, and MLflow-based evaluation."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "mlflow>=3.16.0",
+    "openai>=3.13.0",
+    "requests>=2.34.2",
+]
+
+[dependency-groups]
+dev = [
+    "mdformat>=1.0.0",
+    "mdformat-gfm>=1.0.0",
+    "prek>=0.5.3",
+    "ruff>=0.16.7",
+]
+
+[tool.uv]
+default-groups = ["dev"]
+package = false
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+# pycodestyle errors that do not clash with the formatter (E4, E7, E9) and pyflakes (F).
+select = ["E4", "E7", "E9", "F"]

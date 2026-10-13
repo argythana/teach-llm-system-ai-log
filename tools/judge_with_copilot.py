@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 """Score an exported session with a GitHub Copilot model as a blind judge.
 
-    uv run python tools/judge_with_copilot.py --session ai_collaboration_log/sessions/<stem>.turns.json
+    uv run python tools/judge_with_copilot.py --session sessions/<stem>.turns.json
     uv run python tools/judge_with_copilot.py --session ... --model gpt-5.4 --turns 2 4
 
 Runs the GitHub Copilot CLI non-interactively (`copilot -p ... --output-format json`),
 once per instructor turn, with the rubric and only that turn's content in the prompt:
 the judge never sees the rest of the session and is not told which assistant produced
-the replies. Writes ai_collaboration_log/evaluation/<stem>.copilot_scores.json in the
+the replies. Writes evaluation/<stem>.copilot_scores.json in the
 same shape as the Sonnet judge's file, so `tools/log_session_to_mlflow.py --feedback`
 attaches it to the MLflow traces.
 
@@ -27,8 +27,8 @@ import subprocess
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-RUBRIC = REPO / "ai_collaboration_log" / "evaluation" / "rubric.md"
-EVAL_DIR = REPO / "ai_collaboration_log" / "evaluation"
+RUBRIC = REPO / "evaluation" / "rubric.md"
+EVAL_DIR = REPO / "evaluation"
 CRITERIA = [
     "request_fidelity",
     "verification",
@@ -172,7 +172,7 @@ def main():
 
     output = {
         "judge": f"{args.model} (GitHub Copilot CLI, blind, one turn per call)",
-        "rubric": "ai_collaboration_log/evaluation/rubric.md",
+        "rubric": "evaluation/rubric.md",
         "session": stem,
         "turns": [scored[k] for k in sorted(scored)],
     }

@@ -1,8 +1,11 @@
 #!/usr/bin/env python
-"""Export Claude Code session transcripts into ai_collaboration_log/sessions/.
+"""Export Claude Code session transcripts into sessions/.
 
-    uv run python tools/export_claude_sessions.py              # export every session of this project
-    uv run python tools/export_claude_sessions.py --copy-raw   # also copy the raw JSONL into ai_collaboration_log/raw/
+    uv run python tools/export_claude_sessions.py --project ~/venv_projects/teach-llm-system
+    uv run python tools/export_claude_sessions.py --project ... --copy-raw   # also copy the raw JSONL into raw/
+
+--project is the repository whose sessions are exported: Claude Code files a session
+under the folder it was started in, which is the course repository, not this one.
 
 For each session it writes:
   sessions/<date>_<session-id8>.md          the curated, human-readable transcript
@@ -27,20 +30,17 @@ from datetime import datetime
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-LOG_DIR = REPO / "ai_collaboration_log"
-SESSIONS_DIR = LOG_DIR / "sessions"
-RAW_DIR = LOG_DIR / "raw"
-# Claude Code names the project folder after the repo path with every non-alphanumeric
-# character replaced by "-" (so "venv_projects" becomes "venv-projects").
-CLAUDE_PROJECT_DIR = (
-    Path.home() / ".claude" / "projects" / re.sub(r"[^A-Za-z0-9]", "-", str(REPO))
-)
+SESSIONS_DIR = REPO / "sessions"
+RAW_DIR = REPO / "raw"
+# Set from --project in main(): the Claude Code folder of the exported repository and the
+# pattern of its temporary folder, both scrubbed from the transcripts.
+CLAUDE_PROJECT_DIR = None
+CLAUDE_TMP = None
 
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
 SYSTEM_BLOCK = re.compile(r"<system-reminder>.*?</system-reminder>\s*", re.DOTALL)
 HOME = str(Path.home())
 HOME_SLUG = re.sub(r"[^A-Za-z0-9]", "-", HOME)
-CLAUDE_TMP = re.compile(r"/tmp/claude-\d+/" + re.escape(CLAUDE_PROJECT_DIR.name))
 COMMAND_NAME = re.compile(r"\A<command-name>(/[\w:-]+)</command-name>")
 COMMAND_ARGS = re.compile(r"<command-args>(.*?)</command-args>", re.DOTALL)
 HARNESS_COMMANDS = {
@@ -57,6 +57,17 @@ HARNESS_COMMANDS = {
     "/resume",
     "/status",
 }
+
+
+def claude_project_dir(project):
+    """Claude Code names the project folder after the repo path with every
+    non-alphanumeric character replaced by "-" (so "venv_projects" becomes "venv-projects")."""
+    return (
+        Path.home()
+        / ".claude"
+        / "projects"
+        / re.sub(r"[^A-Za-z0-9]", "-", str(project))
+    )
 
 
 def scrub(text):
@@ -392,11 +403,21 @@ def main():
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument(
+        "--project",
+        type=Path,
+        required=True,
+        help="the repository whose Claude Code sessions are exported",
+    )
+    parser.add_argument(
         "--copy-raw",
         action="store_true",
-        help="copy the JSONL files into ai_collaboration_log/raw/ (gitignored)",
+        help="copy the JSONL files into raw/ (gitignored)",
     )
     args = parser.parse_args()
+
+    global CLAUDE_PROJECT_DIR, CLAUDE_TMP
+    CLAUDE_PROJECT_DIR = claude_project_dir(args.project.expanduser().resolve())
+    CLAUDE_TMP = re.compile(r"/tmp/claude-\d+/" + re.escape(CLAUDE_PROJECT_DIR.name))
 
     sources = {}
     for folder in (RAW_DIR, CLAUDE_PROJECT_DIR):

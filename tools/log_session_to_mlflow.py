@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Mirror an exported Claude Code session into MLflow as traces, then score it.
 
-    uv run python tools/log_session_to_mlflow.py --session ai_collaboration_log/sessions/<stem>.turns.json
-    uv run python tools/log_session_to_mlflow.py --session ... --feedback ai_collaboration_log/evaluation/<stem>.sonnet_scores.json
+    uv run python tools/log_session_to_mlflow.py --session sessions/<stem>.turns.json
+    uv run python tools/log_session_to_mlflow.py --session ... --feedback evaluation/<stem>.sonnet_scores.json
     uv run python tools/log_session_to_mlflow.py --session ... --evaluate [--judge ollama:/qwen3:1.7b]
 
 One MLflow trace per instructor turn (root span: instructor text in, Claude's reply out;
@@ -10,7 +10,7 @@ one TOOL child span per tool call), in the experiment `ai-collaboration-log` on 
 course tracking server. Idempotent: a turn already logged (same session id and turn
 number in the trace tags) is skipped.
 
---feedback attaches the blind judge's scores (see ai_collaboration_log/evaluation/) to the
+--feedback attaches the blind judge's scores (see evaluation/) to the
 matching traces as LLM_JUDGE feedback. --evaluate runs mlflow.genai.evaluate over the
 traces with deterministic scorers and a local Guidelines judge (an Ollama judge runs on
 a variant of its model with a 16k-token context; see JUDGE_CONTEXT), so the two judges
@@ -298,7 +298,7 @@ def main():
     parser.add_argument(
         "--feedback",
         type=Path,
-        help="a judge scores JSON (see ai_collaboration_log/evaluation/README.md)",
+        help="a judge scores JSON (see evaluation/README.md)",
     )
     parser.add_argument(
         "--feedback-prefix",

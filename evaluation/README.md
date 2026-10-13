@@ -22,11 +22,11 @@ course teaches in lecture 3 on the transcript of how the course was built.
    dependency.
 
 ```bash
-uv run python tools/judge_with_copilot.py --session ai_collaboration_log/sessions/<stem>.turns.json
-uv run python tools/log_session_to_mlflow.py --session ai_collaboration_log/sessions/<stem>.turns.json \
-    --feedback ai_collaboration_log/evaluation/<stem>.sonnet_scores.json --evaluate
-uv run python tools/log_session_to_mlflow.py --session ai_collaboration_log/sessions/<stem>.turns.json \
-    --feedback ai_collaboration_log/evaluation/<stem>.copilot_scores.json --feedback-prefix copilot
+uv run python tools/judge_with_copilot.py --session sessions/<stem>.turns.json
+uv run python tools/log_session_to_mlflow.py --session sessions/<stem>.turns.json \
+    --feedback evaluation/<stem>.sonnet_scores.json --evaluate
+uv run python tools/log_session_to_mlflow.py --session sessions/<stem>.turns.json \
+    --feedback evaluation/<stem>.copilot_scores.json --feedback-prefix copilot
 ```
 
 Open the `ai-collaboration-log` experiment on the course MLflow server: the **Traces**
@@ -44,9 +44,9 @@ the traces with real timings and re-attach every judge:
 
 ```bash
 uv run python tools/log_session_to_mlflow.py --session <turns.json> --replace \
-    --feedback ai_collaboration_log/evaluation/<stem>.sonnet_scores.json
+    --feedback evaluation/<stem>.sonnet_scores.json
 uv run python tools/log_session_to_mlflow.py --session <turns.json> \
-    --feedback ai_collaboration_log/evaluation/<stem>.copilot_scores.json --feedback-prefix copilot
+    --feedback evaluation/<stem>.copilot_scores.json --feedback-prefix copilot
 ```
 
 Traces carry the transcript's real timestamps: the root span runs from the instructor's
@@ -68,5 +68,5 @@ and writing. The timeline therefore shows where the wall-clock time of a turn we
   failed to parse. `--evaluate` therefore runs an Ollama judge on a variant of the model
   with a 16k context (`qwen3:1.7b-ctx16k`, created on first use, same weights).
 - The judge sees tool-call summaries, not tool outputs, so it can only check whether
-  verification was *claimed and described*, not whether it happened. The repository's CI
-  and the executed notebooks are the evidence for the latter.
+  verification was *claimed and described*, not whether it happened. The course
+  repository's CI and the executed notebooks are the evidence for the latter.
