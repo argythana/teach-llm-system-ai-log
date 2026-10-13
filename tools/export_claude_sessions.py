@@ -189,6 +189,11 @@ def build_turns(entries):
             continue
         if kind not in ("user", "assistant"):
             continue
+        # When the assistant runs a skill, Claude Code stores the skill's text ("Base
+        # directory for this skill: ...", "(Re-invocation of /...)") as a user message
+        # tied to that tool call. The instructor did not write it.
+        if e.get("isMeta") and e.get("sourceToolUseID"):
+            continue
         # Claude Code's summary after a context compaction: the work that follows
         # continues the current turn.
         if e.get("isCompactSummary"):
