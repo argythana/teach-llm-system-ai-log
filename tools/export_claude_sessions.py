@@ -124,6 +124,8 @@ def instructor_reply_in_result(content):
     found = []
     for marker in (
         "The user answered: ",
+        # Claude Code's wording for AskUserQuestion answers since September 2026.
+        "Your questions have been answered: ",
         "the user said:\n",
         "The user sent a new message while you were working:\n",
     ):
@@ -133,6 +135,7 @@ def instructor_reply_in_result(content):
                 "\n\nThis is how Claude Code",
                 "\n\nRead the answers",
                 "\n\nNote: The user's next message",
+                ". You can now continue with these answers in mind.",
             ):
                 answer = answer.split(tail)[0]
             found.append(answer.strip())
