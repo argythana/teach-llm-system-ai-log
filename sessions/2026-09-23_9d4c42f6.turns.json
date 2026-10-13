@@ -99,7 +99,8 @@
    "instructor": "commit this",
    "instructor_while_working": [],
    "instructor_answers": [
-    "\"The repo has no commits yet, and about 180 files are already staged for the first commit. What should this commit include?\"=\"We need to push this as professionals using top quality best practices. What we pushed should be in relevant groups and well scoped. think hard on this and start pushing\". Read the answers carefully — they may request clarification, changes, or that you not proceed — and follow what they actually say."
+    "\"The repo has no commits yet, and about 180 files are already staged for the first commit. What should this commit include?\"=\"We need to push this as professionals using top quality best practices. What we pushed should be in relevant groups and well scoped. think hard on this and start pushing\". Read the answers carefully — they may request clarification, changes, or that you not proceed — and follow what they actually say.",
+    "\"argythana/teach-llm-system doesn't exist on GitHub yet. How should I create it before pushing main?\"=\"Private for now (Recommended)\""
    ],
    "tool_calls": [
     {
