@@ -208,9 +208,12 @@ def build_turns(entries):
         ts = e.get("timestamp", "")
         if kind == "queue-operation" and e.get("operation") == "enqueue":
             text = scrub(e.get("content", ""))
+            # Queued while the assistant worked: background-task notices and reports
+            # from the assistant's own sub-agents arrive here too, and neither is the
+            # instructor's.
             if (
                 text
-                and not text.startswith("<task-notification>")
+                and not text.startswith(("<task-notification>", "<agent-message"))
                 and current is not None
             ):
                 current["instructor_while_working"].append(text)
