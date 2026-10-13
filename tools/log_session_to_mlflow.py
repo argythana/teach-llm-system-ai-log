@@ -6,8 +6,8 @@
     uv run python tools/log_session_to_mlflow.py --session ... --evaluate [--judge ollama:/qwen3:1.7b]
 
 One MLflow trace per instructor turn (root span: instructor text in, Claude's reply out;
-one TOOL child span per tool call), in the experiment `ai-collaboration-log` on the
-course tracking server. Idempotent: a turn already logged (same session id and turn
+one TOOL child span per tool call), in the experiment `ai-collaboration-log` on this
+repository's tracking server (port 5011). Idempotent: a turn already logged (same session id and turn
 number in the trace tags) is skipped.
 
 --feedback attaches the blind judge's scores (see evaluation/) to the
@@ -26,7 +26,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 EXPERIMENT = "ai-collaboration-log"
-MLFLOW_URI = os.environ.get("MLFLOW_TRACKING_URI", "http://127.0.0.1:5010")
+MLFLOW_URI = os.environ.get("MLFLOW_TRACKING_URI", "http://127.0.0.1:5011")
 TIER = os.environ.get("COURSE_TIER", "cpu")
 DEFAULT_JUDGE = "ollama:/" + {"cpu": "qwen3:1.7b", "gpu": "qwen3:8b"}[TIER]
 
@@ -194,6 +194,8 @@ def attach_feedback(mlflow, trace_ids, feedback_path, prefix="judge"):
 # OpenAI-compatible endpoint, which MLflow's ollama:/ judge calls, ignores num_ctx per
 # request. A long turn would lose its start, where the guideline sits, so the local judge
 # runs on a copy of the model with a larger context (same weights, nothing downloaded).
+# The copy is removed after the evaluation, so it never appears in the model lists that
+# the course notebooks print.
 JUDGE_CONTEXT = 16384
 
 
@@ -221,12 +223,30 @@ def with_judge_context(judge):
     return "ollama:/" + variant
 
 
-def evaluate(mlflow, session_id, judge):
-    from mlflow.genai import evaluate as genai_evaluate
-    from mlflow.genai.scorers import Guidelines, scorer
+def drop_judge_context(judge):
+    """Remove the variant that with_judge_context created; the base model stays."""
+    import requests
 
+    if judge.startswith("ollama:/"):
+        requests.delete(
+            "http://localhost:11434/api/delete",
+            json={"model": judge.removeprefix("ollama:/")},
+            timeout=60,
+        ).raise_for_status()
+
+
+def evaluate(mlflow, session_id, judge):
     judge = with_judge_context(judge)
     print(f"local judge: {judge}")
+    try:
+        run_scorers(mlflow, session_id, judge)
+    finally:
+        drop_judge_context(judge)
+
+
+def run_scorers(mlflow, session_id, judge):
+    from mlflow.genai import evaluate as genai_evaluate
+    from mlflow.genai.scorers import Guidelines, scorer
 
     os.environ.setdefault("MLFLOW_GENAI_EVAL_MAX_WORKERS", "1")
     os.environ.setdefault("MLFLOW_GENAI_EVAL_MAX_SCORER_WORKERS", "1")

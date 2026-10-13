@@ -17,10 +17,11 @@ is evidence of AI fluency practice, not course material.
   the course repository, where the sessions were run.
 - **Mirror and score.**
   `uv run python tools/log_session_to_mlflow.py --session <turns.json> --evaluate` logs
-  one trace per turn into the experiment `ai-collaboration-log` on the course MLflow
-  server (port 5010), then follow the blind-judge procedure in `evaluation/README.md`.
-  Score only finished turns; after a session grows, re-log with `--replace` and
-  re-attach every judge's feedback.
+  one trace per turn into the experiment `ai-collaboration-log` on this repository's
+  MLflow server (`uv run mlflow server --host 127.0.0.1 --port 5011` from the root),
+  then follow the blind-judge procedure in `evaluation/README.md`. Score only finished
+  turns; after a session grows, re-log with `--replace` and re-attach every judge's
+  feedback.
 - **Reflections** are the instructor's own text: draft them, never finalise them.
 
 ## Rules

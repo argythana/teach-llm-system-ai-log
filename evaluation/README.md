@@ -29,11 +29,11 @@ uv run python tools/log_session_to_mlflow.py --session sessions/<stem>.turns.jso
     --feedback evaluation/<stem>.copilot_scores.json --feedback-prefix copilot
 ```
 
-Open the `ai-collaboration-log` experiment on the course MLflow server: the **Traces**
-tab lists one trace per turn with the blind judge's scores as feedback (`judge/*`), and
-the evaluation run holds the local scorers' results. Where the two judges disagree is
-the interesting part, and a small local model judging long, technical replies is
-expected to be the weaker of the two.
+Open the `ai-collaboration-log` experiment on this repository's MLflow server
+(<http://127.0.0.1:5011>): the **Traces** tab lists one trace per turn with the blind
+judge's scores as feedback (`judge/*`), and the evaluation run holds the local scorers'
+results. Where the two judges disagree is the interesting part, and a small local model
+judging long, technical replies is expected to be the weaker of the two.
 
 ## Re-running after a session grows
 
@@ -66,7 +66,8 @@ and writing. The timeline therefore shows where the wall-clock time of a turn we
   calls, ignores a per-request `num_ctx`. Turn 29 of session `2026-09-24_cbdb58da` has a
   12,944-token judge prompt (measured), and at 4,096 tokens the local judge's answer
   failed to parse. `--evaluate` therefore runs an Ollama judge on a variant of the model
-  with a 16k context (`qwen3:1.7b-ctx16k`, created on first use, same weights).
+  with a 16k context (`qwen3:1.7b-ctx16k`, same weights), created for the evaluation and
+  removed after it.
 - The judge sees tool-call summaries, not tool outputs, so it can only check whether
   verification was *claimed and described*, not whether it happened. The course
   repository's CI and the executed notebooks are the evidence for the latter.

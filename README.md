@@ -44,9 +44,11 @@ uv sync
 ```
 
 - **Ollama** with `qwen3:1.7b`, for the local judge (the course's guide `01c_ollama`).
-- **An MLflow tracking server.** The tools default to the course server at
-  `http://127.0.0.1:5010`, started from the course's `mlflow_server/` folder (guide
-  `03a_mlflow_server`). Set `MLFLOW_TRACKING_URI` to use another one.
+- **This repository's MLflow server**, started from the repository root so that
+  `mlflow.db` and `mlartifacts/` land there (both gitignored):
+  `uv run mlflow server --host 127.0.0.1 --port 5011`. Port 5011 leaves 5010 to the
+  course server (guide `03a_mlflow_server`); set `MLFLOW_TRACKING_URI` to use another
+  server.
 - **Optional:** the GitHub Copilot CLI, for a judge from another model family
   (`evaluation/README.md`).
 
